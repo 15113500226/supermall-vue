@@ -22,6 +22,7 @@ const routes = [
     { path: '/cart', component: Cart },
     { path: '/profile', component: Profile }
 ]
+
 const router = new VueRouter({
     routes,
     mode: 'history'
