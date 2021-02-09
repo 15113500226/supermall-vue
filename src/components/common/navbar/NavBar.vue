@@ -21,7 +21,7 @@
     /* 如果没有height，line-height要有内容才会撑起高度 */
     line-height: 44px;
     text-align: center;
-    box-shadow: 0 1px 1px rgba(100, 100, 100, .3);
+    box-shadow: 0 1px 1px rgba(100, 100, 100, .1);
     box-sizing: border-box;
   }
 
