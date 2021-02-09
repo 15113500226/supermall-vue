@@ -14,6 +14,9 @@
     <!-- 本周流行模块 -->
     <feature-view/>
 
+    <!-- TabControl模块 -->
+    <tab-control class="tab-control" :titles="titles"/>
+
     <ur>
       <li>列表1</li>
       <li>列表2</li>
@@ -70,25 +73,32 @@
 </template>
 
 <script>
-  import NavBar from 'components/common/navbar/NavBar'
+  // 子组件
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
   import FeatureView from './childComps/FeatureView'
 
+  // 公共组件
+  import NavBar from 'components/common/navbar/NavBar'
+  import TabControl from 'components/content/tabControl/TabControl'
+
+  // 导入方法、额外的数据
   import { getHomeMultidata } from 'network/home'
 
   export default {
     name:'Home',
     components:{
-      NavBar,
       HomeSwiper,
       RecommendView,
       FeatureView,
+      NavBar,
+      TabControl,
     },
     data(){
       return{
         banners:[],
         recommends:[],
+        titles:['流行', '新款', '精选'],
       }
     },
     created(){
@@ -116,5 +126,12 @@
     right: 0;
     top: 0;
     z-index: 99;
+  }
+
+  .tab-control{
+    /* 吸顶效果 */
+    position: sticky;
+    /* 页面上拉，这个组件就会停留在top为44px的位置 */
+    top: 44px;
   }
 </style>
