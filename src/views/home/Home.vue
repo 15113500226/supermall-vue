@@ -99,6 +99,12 @@
         banners:[],
         recommends:[],
         titles:['流行', '新款', '精选'],
+        // 数据模型（三类数据pop、news、sell）， list是当前此类加载page页的所有的数据，page是记录加载到第几页了
+        goods:{
+          'pop':{ page:0, list:[] },
+          'news':{ page:0, list:[] },
+          'sell':{ page:0, list:[] },
+        },
       }
     },
     created(){
