@@ -17,7 +17,10 @@
     <!-- TabControl模块 -->
     <tab-control class="tab-control" :titles="titles"/>
 
-    <ur>
+    <!-- 商品展示 -->
+    <goods-list :goods="goods['pop'].list"/>
+
+    <ul>
       <li>列表1</li>
       <li>列表2</li>
       <li>列表3</li>
@@ -68,7 +71,7 @@
       <li>列表48</li>
       <li>列表49</li>
       <li>列表50</li>
-    </ur>
+    </ul>
   </div>
 </template>
 
@@ -81,6 +84,7 @@
   // 公共组件
   import NavBar from 'components/common/navbar/NavBar'
   import TabControl from 'components/content/tabControl/TabControl'
+  import GoodsList from 'components/content/goods/GoodsList'
 
   // 导入方法、额外的数据
   import { getHomeMultidata, getHomeGoods } from 'network/home'
@@ -93,6 +97,7 @@
       FeatureView,
       NavBar,
       TabControl,
+      GoodsList,
     },
     data(){
       return{
@@ -160,5 +165,6 @@
     position: sticky;
     /* 页面上拉，这个组件就会停留在top为44px的位置 */
     top: 44px;
+    z-index: 99;
   }
 </style>
