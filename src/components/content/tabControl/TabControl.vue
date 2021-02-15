@@ -27,6 +27,8 @@ export default {
   methods:{
     itemClick(index){
       this.currentIndex = index;
+      // 监听事件点击（将切换商品种类发送给父组件）
+      this.$emit('tabClick', index);
     },
   },
 }

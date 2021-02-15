@@ -15,10 +15,10 @@
     <feature-view/>
 
     <!-- TabControl模块 -->
-    <tab-control class="tab-control" :titles="titles"/>
+    <tab-control class="tab-control" :titles="titles" @tabClick="tabClick"/>
 
     <!-- 商品展示 -->
-    <goods-list :goods="goods['pop'].list"/>
+    <goods-list :goods="currentType"/>
 
     <ul>
       <li>列表1</li>
@@ -110,8 +110,14 @@
           'new':{ page:0, list:[] },
           'sell':{ page:0, list:[] },
         },
+        currentType:'',
       }
     },
+    // computed:{
+    //   showGoods(){
+    //     return this.goods[currentType].list
+    //   }
+    // },
     created(){
       // 1.请求多个数据
       this.getHomeMultidata()
@@ -121,6 +127,23 @@
       this.getHomeGoods('sell')
     },
     methods:{
+      /**
+       * 事件监听相关的方法
+       */
+      tabClick(index){
+        // console.log(index);
+        if(index === 0){
+          this.currentType = this.goods.pop.list;
+        }else if(index === 1){
+          this.currentType = this.goods.new.list;
+        }else if(index === 2){
+          this.currentType = this.goods.sell.list;
+        };
+      },
+
+      /** 
+       * 网络请求相关的方法
+      */
       getHomeMultidata(){
         getHomeMultidata().then(res=>{
           console.log(res);
