@@ -5,7 +5,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <!-- 轮播图 -->
       <home-swiper :banners="banners"/>
       <!-- 推荐信息展示 -->
@@ -18,6 +18,8 @@
       <goods-list :goods="currentType"/>
     </scroll>
 
+    <!-- 回到顶部按钮 -->
+    <back-top @click.native="backClick"/>
   </div>
 </template>
 
@@ -32,6 +34,7 @@
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import Scroll from 'components/common/scroll/Scroll'
+  import BackTop from 'components/content/backTop/BackTop'
 
   // 导入方法、额外的数据
   import { getHomeMultidata, getHomeGoods } from 'network/home'
@@ -46,6 +49,7 @@
       TabControl,
       GoodsList,
       Scroll,
+      BackTop,
     },
     data(){
       return{
@@ -87,6 +91,12 @@
         }else if(index === 2){
           this.currentType = this.goods.sell.list;
         };
+      },
+      backClick(){
+        // this.$refs.scroll是<scroll>、this.$refs.scroll.scroll是scroll变量、scrollTo(x, y, time)
+        // this.$refs.scroll.scroll.scrollTo(0, 0, 500)
+        // 调用定义的scrollTo方法（定义在Scroll.vue中）
+        this.$refs.scroll.scrollTo(0,0);
       },
 
       /** 
