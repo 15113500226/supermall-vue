@@ -4,7 +4,10 @@
     <!-- 使用better-scroll滚动 -->
     <div class="wrapper" ref="aa">
        <ul class="content">
+         <!-- 无论是否设置为click:false button都可以点击 -->
         <button @click="btnClick">按钮</button>
+        <!-- 必须设置click:true div才能点击 -->
+        <div @click="divClick">div按钮</div>
         <li>分类1</li>
         <li>分类2</li>
         <li>分类3</li>
@@ -134,6 +137,7 @@ export default {
     this.scroll = new BScroll(document.querySelector('.wrapper'),{
       probeType: 3,
       pullUpLoad: true,
+      click:true,
     });
 
     // 实时监听滚动的位置
@@ -148,7 +152,10 @@ export default {
   },
   methods:{
     btnClick(){
-      console.log('按钮');
+      console.log('button按钮');
+    },
+    divClick(){
+      console.log('div按钮');
     },
   }
 }

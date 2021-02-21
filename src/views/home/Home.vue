@@ -5,7 +5,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="scroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <!-- 轮播图 -->
       <home-swiper :banners="banners"/>
       <!-- 推荐信息展示 -->
@@ -19,7 +19,8 @@
     </scroll>
 
     <!-- 回到顶部按钮 -->
-    <back-top @click.native="backClick"/>
+    <!-- native是监听组件的点击 -->
+    <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
 
@@ -63,6 +64,7 @@
           'sell':{ page:0, list:[] },
         },
         currentType:'',
+        isShowBackTop:false,
       }
     },
     // computed:{
@@ -97,6 +99,16 @@
         // this.$refs.scroll.scroll.scrollTo(0, 0, 500)
         // 调用定义的scrollTo方法（定义在Scroll.vue中）
         this.$refs.scroll.scrollTo(0,0);
+      },
+      // 实时监听滚动
+      contentScroll(position){
+        // console.log(position.y);
+        // if(position.y < -1000){
+        //   this.isShowBackTop = true;
+        // }else if(position.y > -1000){
+        //   this.isShowBackTop = false;
+        // }
+        this.isShowBackTop = position.y < -1000;
       },
 
       /** 
