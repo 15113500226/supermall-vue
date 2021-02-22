@@ -57,7 +57,7 @@ export default {
 
 .goods-info .title{
   width: 100%;
-  height: 15px;
+  height: 14px;
   overflow: hidden;
   margin-bottom: 3px;
 }

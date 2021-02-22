@@ -5,7 +5,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true"  @pullingUp="loadMore">
       <!-- 轮播图 -->
       <home-swiper :banners="banners"/>
       <!-- 推荐信息展示 -->
@@ -16,6 +16,7 @@
       <tab-control class="tab-control" :titles="titles" @tabClick="tabClick"/>
       <!-- 商品展示 -->
       <goods-list :goods="currentType"/>
+      <!-- <goods-list :goods="goods[currentType].list"/> -->
     </scroll>
 
     <!-- 回到顶部按钮 -->
@@ -54,17 +55,18 @@
     },
     data(){
       return{
-        banners:[],
-        recommends:[],
-        titles:['流行', '新款', '精选'],
+        banners:[], // 存放轮播图的数据
+        recommends:[],  // 存放推荐信息的数据
+        titles:['流行', '新款', '精选'],  // 定义tabControl的标题
         // 数据模型（三类数据pop、news、sell）， list是当前此类加载page页的所有的数据，page是记录加载到第几页了
         goods:{
           'pop':{ page:0, list:[] },
           'new':{ page:0, list:[] },
           'sell':{ page:0, list:[] },
         },
-        currentType:'',
-        isShowBackTop:false,
+        currentType:'', // 用于存放某一类的list数据
+        currentGoodType:'', // 用于存放某一类
+        isShowBackTop:false,  // 是否展示BackTop按钮
       }
     },
     // computed:{
@@ -88,11 +90,25 @@
         // console.log(index);
         if(index === 0){
           this.currentType = this.goods.pop.list;
+          this.currentGoodType = 'pop';
         }else if(index === 1){
           this.currentType = this.goods.new.list;
+          this.currentGoodType = 'new';
         }else if(index === 2){
           this.currentType = this.goods.sell.list;
+          this.currentGoodType = 'sell';
         };
+        // switch(index){
+        //   case 0:
+        //     this.currentType = 'pop'
+        //     break
+        //   case 1:
+        //     this.currentType = 'new'
+        //     break
+        //    case 2:
+        //     this.currentType = 'sell'
+        //     break
+        // }
       },
       backClick(){
         // this.$refs.scroll是<scroll>、this.$refs.scroll.scroll是scroll变量、scrollTo(x, y, time)
@@ -110,13 +126,22 @@
         // }
         this.isShowBackTop = position.y < -1000;
       },
+      // 上拉加载更多
+      loadMore(){
+        // console.log('上拉加载');
+        // 加载哪一类的数据：this.getHomeGoods、记录类型：this.currentGoodType
+        this.getHomeGoods(this.currentGoodType);
+
+        // 重新计算可滚动的区域（高度），防止图片上拉后图片未完全加载。
+        this.$refs.scroll.scroll.refresh();
+      },
 
       /** 
        * 网络请求相关的方法
       */
       getHomeMultidata(){
         getHomeMultidata().then(res=>{
-          console.log(res);
+          // console.log(res);
           this.banners = res.data.banner.list;
           this.recommends = res.data.recommend.list;
         })
@@ -124,13 +149,17 @@
       getHomeGoods(type){
         // this.goods[type]表示传入的是哪一类的,goods是对象，当对象获取的属性是变量的时候，就是goods[type]的写法
         // 最开始：0 + 1
-        const page = this.goods[type].page + 1;
+        let page = this.goods[type].page + 1;
+        // console.log(page);
         getHomeGoods(type,page).then(res=>{
-          console.log(res.data.list);
+          // console.log(res.data.list);
           // ...res.data.list是对这个数组做解析，之后将这个数组的元素一个一个拿出来添加到this.goods[type].list中
           this.goods[type].list.push(...res.data.list);
           // 这个类型的page在数据模型中加一
           this.goods[type].page += 1;
+
+          // 完成这次的上拉加载
+          this.$refs.scroll.finishPullUp();
         })
       },
     },
