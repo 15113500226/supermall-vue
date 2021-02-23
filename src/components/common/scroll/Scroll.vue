@@ -35,7 +35,8 @@ export default {
       pullUpLoad: this.pullUpLoad, // 上拉加载更多
       click: true,  // 点击生效
       mouseWheel: true, // 鼠标滚动
-      observeDOM: true,
+      observeDOM: true, // 观察最新的DOM树变化
+      observeImage: true, // 根据图片的高度动态的刷新scrollerHeight
     });
 
     // 2. 监听滚动的区域
@@ -49,6 +50,12 @@ export default {
       // console.log('上拉加载更多');
       this.$emit('pullingUp');
     });
+
+    // 可滚动的高度
+    console.log(this.scroll.scrollerHeight);
+
+    // 重新计算高度
+    // this.scroll.refresh();
   },
   methods:{
     // 回到顶部
@@ -58,6 +65,10 @@ export default {
     // 完成此次的上拉加载
     finishPullUp(){
       this.scroll.finishPullUp();
+    },
+    // 重新计算可滚动的高度
+    refresh(){
+      this.scroll.refresh();
     },
   },
 }

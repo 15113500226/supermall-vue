@@ -2,7 +2,7 @@
   <div class="goods-item">
     <a :href="goodsItem.link">
       <!-- 商品图片 -->
-      <img :src="goodsItem.show.img" alt="">
+      <img :src="goodsItem.show.img" alt="" @load="imageLoad">
       <div class="goods-info">
         <!-- 标题 -->
         <div class="title"><p>{{goodsItem.title}}</p></div>
@@ -24,7 +24,15 @@ export default {
       default(){
         return {}
       },
-    }
+    },
+  },
+  methods:{
+    // 监听图片的加载完成
+    imageLoad(){
+      // 事件总线——发射itemImageLoad事件
+      this.$bus.$emit('itemImageLoad');
+      // console.log(this.$bus);
+    },
   },
 }
 </script>

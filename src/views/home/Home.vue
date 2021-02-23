@@ -81,6 +81,12 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+      // 3.监听item中图片加载完成——监听事件总线 this.$bus.on('发射出来的事件', fn)
+      this.$bus.$on('itemImageLoad', ()=>{
+        console.log('--------');
+        this.$refs.scroll.refresh();
+      })
     },
     methods:{
       /**
@@ -133,7 +139,7 @@
         this.getHomeGoods(this.currentGoodType);
 
         // 重新计算可滚动的区域（高度），防止图片上拉后图片未完全加载。
-        this.$refs.scroll.scroll.refresh();
+        this.$refs.scroll.refresh();
       },
 
       /** 
