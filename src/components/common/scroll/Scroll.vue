@@ -45,30 +45,26 @@ export default {
       this.$emit('scroll', position);
     });
 
-    // 3. 上拉加载更多
+    // 3. 上拉加载更多(监听scroll滚动到底部)
     this.scroll.on('pullingUp',()=>{
       // console.log('上拉加载更多');
       this.$emit('pullingUp');
     });
-
-    // 可滚动的高度
-    console.log(this.scroll.scrollerHeight);
-
-    // 重新计算高度
-    // this.scroll.refresh();
   },
   methods:{
     // 回到顶部
     scrollTo(x, y, time=500){
-      this.scroll.scrollTo(x,y,time);
+      // &&并且，都为true的时候才会执行
+      this.scroll && this.scroll.scrollTo(x,y,time);
     },
     // 完成此次的上拉加载
     finishPullUp(){
-      this.scroll.finishPullUp();
+      this.scroll && this.scroll.finishPullUp();
     },
     // 重新计算可滚动的高度
     refresh(){
-      this.scroll.refresh();
+      console.log('-----');
+      this.scroll && this.scroll.refresh();
     },
   },
 }
