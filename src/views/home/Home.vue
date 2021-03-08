@@ -8,7 +8,7 @@
     <!-- TabControl模块 -->
     <tab-control class="tab-control tab-control-fixed" :titles="titles" @tabClick="tabClick" ref="tabControl1" v-show="isTabFixed"/>
 
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true"  @pullingUp="loadMore">
+    <scroll :class="{content:scrollClass}" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true"  @pullingUp="loadMore">
       <!-- 轮播图 -->
       <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"/>
       <!-- 推荐信息展示 -->
@@ -73,6 +73,9 @@
         isShowBackTop:false,  // 是否展示BackTop按钮
         tabOffsetTop:0,  // tabControl组件的到最近的一个具有定位祖宗元素的距离
         isTabFixed:false, // tabControl默认不吸顶
+        scrollClass:true, // 动态的绑定scroll的class
+        saveY:0,  // 用于保存离开Home.vue时的位置
+        // saveScrollY:0, // 用于保存保存scroll滚动时的位置
       }
     },
     // computed:{
@@ -80,6 +83,20 @@
     //     return this.goods[currentType].list
     //   }
     // },
+    // 切换路由时，当前路由就会销毁
+    destroyed(){
+      console.log('Home界面切换，当前界面被destroyed销毁');
+    },
+    // 当前路由出于活跃状态时（进来）调用
+    activated(){
+      this.$refs.scroll.scrollTo(0, this.saveY, 0);
+      this.$refs.scroll.refresh();  // 对scroll做一次刷新，防止切换回Home路由时不能滚动
+    },
+    // 当前路由不活跃时（离开）调用
+    deactivated(){
+      // this.saveY = this.saveScrollY;
+      this.saveY = this.$refs.scroll.getScrollY();
+    },
     created(){
       // 1.请求多个数据
       this.getHomeMultidata()
@@ -116,7 +133,7 @@
           this.currentGoodType = 'sell';
         };
 
-        this.$refs.tabControl1.currentIndex = index;
+        this.$refs.tabControl1.currentIndex = index;  // 让两个tabControl组件显示的type一样
         this.$refs.tabControl2.currentIndex = index;
         // switch(index){
         //   case 0:
@@ -149,6 +166,8 @@
 
         // 2. 决定tabControl是否吸顶（position:fixed）
         this.isTabFixed = position.y < -this.tabOffsetTop;  // 动态的决定是否吸顶
+
+        // this.saveScrollY = position.y; // 保存滚动的位置
       },
       // 上拉加载更多
       loadMore(){

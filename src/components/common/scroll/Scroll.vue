@@ -63,8 +63,13 @@ export default {
     },
     // 重新计算可滚动的高度
     refresh(){
-      console.log('-----');
+      // console.log('-----');
       this.scroll && this.scroll.refresh();
+    },
+    // 拿到scroll滚动的Y值
+    getScrollY(){
+      // 拿到scroll滚动的y值
+      return this.scroll ? this.scroll.y : 0;
     },
   },
 }

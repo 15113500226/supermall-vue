@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!-- keep-alive保存路由当前状态，不随便销毁。router-view是将路由内容显示出来 -->
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+    <!-- 底部导航栏 -->
     <main-tab-bar/>
   </div>
 </template>
