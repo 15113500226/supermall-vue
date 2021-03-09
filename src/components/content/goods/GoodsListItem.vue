@@ -1,6 +1,6 @@
 <template>
-  <div class="goods-item">
-    <a :href="goodsItem.link">
+  <div class="goods-item" @click="itemClick">
+    <!-- <a :href="goodsItem.link"> -->
       <!-- 商品图片 -->
       <img :src="goodsItem.show.img" alt="" @load="imageLoad">
       <div class="goods-info">
@@ -10,8 +10,8 @@
         <span class="price">{{goodsItem.price}}</span>
         <!-- 收藏 -->
         <span class="collect">{{goodsItem.cfav}}</span>
-    </div>
-    </a>
+      </div>
+    <!-- </a> -->
   </div>
 </template>
 
@@ -29,9 +29,19 @@ export default {
   methods:{
     // 监听图片的加载完成
     imageLoad(){
-      // 事件总线——发射itemImageLoad事件
-      this.$bus.$emit('itemImageLoad');
+      this.$bus.$emit('itemImageLoad'); // 事件总线——发射itemImageLoad事件
       // console.log(this.$bus);
+    },
+    // 监听goodListItem的点击
+    itemClick(){
+      // 跳转到详情页，详情页需要返回（用push，不用replace）
+      this.$router.push('/detail/' + this.goodsItem.iid)
+      // this.$router.push({
+      //   path:'/detail',
+      //   query:{
+      //     iid: this.goodsItem.iid
+      //   }
+      // });
     },
   },
 }

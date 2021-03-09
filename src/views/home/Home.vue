@@ -64,9 +64,9 @@
         titles:['流行', '新款', '精选'],  // 定义tabControl的标题
         // 数据模型（三类数据pop、news、sell）， list是当前此类加载page页的所有的数据，page是记录加载到第几页了
         goods:{
-          'pop':{ page:0, list:[] },
-          'new':{ page:0, list:[] },
-          'sell':{ page:0, list:[] },
+          'pop':{ page:0, list:[], savePopY:0 },
+          'new':{ page:0, list:[], saveNewY:0 },
+          'sell':{ page:0, list:[], saveSellY:0 },
         },
         currentType:[], // 用于存放某一类的list数据
         currentGoodType:'', // 用于存放某一类
@@ -96,6 +96,19 @@
     deactivated(){
       // this.saveY = this.saveScrollY;
       this.saveY = this.$refs.scroll.getScrollY();
+
+      // 切换Home.vue时，使tabControl三类的位置不同步
+      // if(this.currentGoodType === 'pop'){
+      //   this.goods.pop.savePopY = this.$refs.scroll.getScrollY();
+      //   this.saveY = this.goods.pop.savePopY;
+      // }else if(this.currentGoodType === 'new'){
+      //   this.goods.new.savePopY = this.$refs.scroll.getScrollY();
+      //   this.saveY = this.goods.new.savePopY;
+      // }else if(this.currentGoodType === 'sell'){
+      //   this.goods.sell.savePopY = this.$refs.scroll.getScrollY();
+      //   this.saveY = this.goods.sell.savePopY;
+      // }
+      // console.log(this.goods.pop.savePopY, this.goods.new.savePopY, this.goods.sell.savePopY);
     },
     created(){
       // 1.请求多个数据
