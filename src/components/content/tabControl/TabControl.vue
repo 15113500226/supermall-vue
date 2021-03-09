@@ -20,8 +20,7 @@ export default {
   },
   data(){
     return{
-      // 记录当前谁处于选中
-      currentIndex: 0,
+      currentIndex: 0,  // 记录当前谁处于选中
     }
   },
   methods:{
