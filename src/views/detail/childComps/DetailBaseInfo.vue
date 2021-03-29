@@ -17,6 +17,7 @@
       <span>{{goods.services[goods.services.length-1].name}}</span>
     </div>
 
+    <!-- 延误比赔、延误补运费、全国包邮、7天无理由退货 -->
     <div class="info-service">
       <span class="info-service-item" v-for="index in goods.services.length - 1" :key="index">
         <img :src="goods.services[index - 1].icon" alt="">
@@ -100,11 +101,11 @@ export default {
     width: 13px;
     height: 13px;
     position: relative;
-    top: 1px;
+    top: 2px;
   }
 
   .info-service-item span{
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
   }
 </style>
