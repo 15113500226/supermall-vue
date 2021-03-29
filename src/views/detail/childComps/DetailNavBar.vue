@@ -39,14 +39,14 @@ export default {
 </script>
 
 <style scoped>
-.detail-nav{
+/* .detail-nav{ */
   /* background-color: var(--color-tint);
   color: #fff; */
-}
+/* } */
 
 .detail-nav img{
   position: relative;
-  top: 6px;
+  top: 5px;
   width: 20px;
 }
 
