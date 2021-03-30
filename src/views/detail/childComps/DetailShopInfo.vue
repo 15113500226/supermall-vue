@@ -6,7 +6,6 @@
       <span class="title">{{shop.name}}</span>
     </div>
 
-    <!--  -->
     <div class="shop-middle">
       <!-- 总销量、全部宝贝 -->
       <div class="shop-middle-item shop-middle-left">
