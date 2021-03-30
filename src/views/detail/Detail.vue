@@ -12,6 +12,8 @@
       <detail-shop-info :shop="shop"/>
       <!-- 商品详细信息 -->
       <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad"/>
+      <!-- 参数信息 -->
+      <detail-param-info :param-info="paramInfo"/>
       <h2>{{iid}}</h2>
     </scroll>
   </div>
@@ -24,10 +26,11 @@ import DetailSwiper from './childComps/DetailSwiper'
 import DetailBaseInfo from './childComps/DetailBaseInfo'
 import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+import DetailParamInfo from './childComps/DetailParamInfo'
 // 公共组件
 import Scroll from 'components/common/scroll/Scroll'
 // 发送网络请求
-import { getDetail, GoodInfo, Shop } from 'network/detail.js'
+import { getDetail, GoodInfo, Shop, GoodsParam } from 'network/detail.js'
 
 export default {
   name:'Detail',
@@ -37,6 +40,7 @@ export default {
     DetailBaseInfo,
     DetailShopInfo,
     DetailGoodsInfo,
+    DetailParamInfo,
     Scroll,
   },
   data(){
@@ -46,6 +50,7 @@ export default {
       goods:{}, // 存放Detail商品详细数据
       shop:{},  // 存放店铺信息
       detailInfo:{}, // 存放商品详细信息
+      paramInfo:{}, // 存放参数信息
     }
   },
   created(){
@@ -69,7 +74,10 @@ export default {
 
       // <4>.获取商品详细信息
       this.detailInfo = data.detailInfo;
-      console.log(this.detailInfo);
+
+      // <5>.获取参数信息
+      this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule);
+      console.log(this.paramInfo);
     })
   },
   methods:{

@@ -20,7 +20,7 @@
     <!-- 延误比赔、延误补运费、全国包邮、7天无理由退货 -->
     <div class="info-service">
       <span class="info-service-item" v-for="index in goods.services.length - 1" :key="index">
-        <img :src="goods.services[index - 1].icon" alt="">
+        <img :src="goods.services[index - 1].icon" alt="" @click="GoodsServicesIcon(goods.services)">
         <span>{{goods.services[index-1].name}}</span>
       </span>
     </div>
@@ -38,7 +38,14 @@ export default {
         return {}
       },
     },
-  }
+  },
+  methods:{
+    // GoodsServicesIcon(good){
+    //   if(good[index - 1].name === '延误必赔'){
+    //     good[index - 1].icon = good[index - 2].icon;
+    //   }
+    // },
+  },
 }
 </script>
 

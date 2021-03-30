@@ -64,25 +64,31 @@ export default {
   .start{
     width: 0; 
     height: 0; 
-    border: 4px solid #000;
+    border: 3px solid #000;
+    margin-left: 8px;
   }
 
   .start-line{
     width: 10px;
     height: 1px;
     border-left: 100px solid #000;
+    margin-left: 8px;
   }
 
   .end{
     width: 0; 
     height: 0; 
-    border: 4px solid #000;
+    border: 3px solid #000;
+    position: relative;
+    right: -303px;
   }
 
   .end-line{
     width: 10px;
     height: 1px;
     border-left: 100px solid #000;
+    position: relative;
+    right: -209px;
   }
 
   .desc{
