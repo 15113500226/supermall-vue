@@ -10,6 +10,13 @@ export function getDetail(iid) {
     })
 }
 
+// 推荐数据的请求
+export function getRecommend() {
+    return requestGoodData({
+        url: '/recommend',
+    })
+}
+
 // 因为数据有点复杂，干脆自己搞一个对象，将数据搞到对象中，之后面向这个对象就可以了
 // 这样做体现了面向对象的封装思想，把很多服务器访问的东西先封装到一个类里面，再来创建类的一个对象，将对象传到下一层组件里面，组件面向这个对象开发就可以了
 // 定义一个class，constructor构造函数来存储多种数据

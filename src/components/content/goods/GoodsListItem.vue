@@ -2,7 +2,7 @@
   <div class="goods-item" @click="itemClick">
     <!-- <a :href="goodsItem.link"> -->
       <!-- 商品图片 -->
-      <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+      <img :src="showImages" alt="" @load="imageLoad">
       <div class="goods-info">
         <!-- 标题 -->
         <div class="title"><p>{{goodsItem.title}}</p></div>
@@ -24,6 +24,11 @@ export default {
       default(){
         return {}
       },
+    },
+  },
+  computed:{
+    showImages(){
+      return this.goodsItem.image || this.goodsItem.show.img
     },
   },
   methods:{

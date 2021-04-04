@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div v-if="Object.keys(goods).length !== 0" class="base-info">
     <!-- 标题 -->
     <div class="info-title">{{goods.title}}</div>
