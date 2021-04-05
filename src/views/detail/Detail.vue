@@ -1,9 +1,9 @@
 <template>
   <div id="detail">
     <!-- 导航栏 -->
-    <detail-nav-bar class="detail-nav" @titleClick="titleClick"/>
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick" ref="nav"/>
 
-    <scroll class="content" ref="scroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <!-- 轮播图 -->
       <detail-swiper :top-images="topImages"/>
       <!-- 商品信息的展示 -->
@@ -62,6 +62,7 @@ export default {
       commentInfo:{}, // 存放评论信息
       recommends:[],  // 存放推荐数据的信息
       themsTopys:[],  // 存放导航栏里类的对应位置
+      NavBarCurrentIndex:0, // 存放导航栏标题的index
     }
   },
   created(){
@@ -119,6 +120,7 @@ export default {
   mounted(){},
   updated(){},
   methods:{
+    // 监听图片加载
     imageLoad(){
       console.log('---------');
       this.$refs.scroll.refresh();
@@ -131,8 +133,35 @@ export default {
       this.themsTopys.push(this.$refs.recommend.$el.offsetTop);  // 推荐的offsetTop
       console.log(this.themsTopys);
     },
+
+    // 点击导航栏跳转对应位置
     titleClick(index){
       this.$refs.scroll.scrollTo(0, -this.themsTopys[index], 1000);
+    },
+
+    // 滚动详情页位置，导航栏标题跳到指定标题
+    contentScroll(position){
+      // console.log(position);
+      // 1.获取滚动的y值
+      const positionY = -position.y;
+      // console.log(positionY);
+
+      // 2.将positionY和导航栏标题中的值进行对比
+      let length = this.themsTopys.length;
+      for(let i = 0; i < length; i++){
+        // 错误一：这里的i是string，并非是数字,所以要么就用普通的for循环，要么就对i转化(i*1 或 parstInt)
+        // 错误二：到推荐信息i是3，所以i+1=4是拿不到的（所以要分成两个判断）
+        // console.log(i, typeof i);
+        // if(positionY > this.themsTopys[i] && positionY < this.themsTopys[i+1]){
+        //   console.log(i);
+        // }
+        if(this.NavBarCurrentIndex !== i && ((i<length-1 && positionY >= this.themsTopys[i] && positionY < this.themsTopys[i+1]) || (i===length-1 && positionY >= this.themsTopys[i]))){
+          // console.log(i); // 打印太频繁
+          this.NavBarCurrentIndex = i;
+          // console.log(this.NavBarCurrentIndex);
+          this.$refs.nav.currentIndex = this.NavBarCurrentIndex;
+        }
+      }
     },
   },
 }
