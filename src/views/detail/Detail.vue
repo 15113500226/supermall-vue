@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
     <!-- 导航栏 -->
-    <detail-nav-bar class="detail-nav"/>
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick"/>
 
     <scroll class="content" ref="scroll">
       <!-- 轮播图 -->
@@ -13,11 +13,11 @@
       <!-- 商品详细信息 -->
       <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad"/>
       <!-- 参数信息 -->
-      <detail-param-info :param-info="paramInfo"/>
+      <detail-param-info ref="params" :param-info="paramInfo"/>
       <!-- 评论信息 -->
-      <detail-comment-info :commentInfo="commentInfo"/>
+      <detail-comment-info ref="comment" :commentInfo="commentInfo"/>
       <!-- 推荐信息 -->
-      <goods-list :goods="recommends"/>
+      <goods-list ref="recommend" :goods="recommends"/>
     </scroll>
   </div>
 </template>
@@ -61,6 +61,7 @@ export default {
       paramInfo:{}, // 存放参数信息
       commentInfo:{}, // 存放评论信息
       recommends:[],  // 存放推荐数据的信息
+      themsTopys:[],  // 存放导航栏里类的对应位置
     }
   },
   created(){
@@ -94,18 +95,44 @@ export default {
         this.commentInfo = data.rate.list[0];
         // console.log(this.commentInfo);
       }
+
+      // $nextTick是等子组件赋完值且渲染完之后再调用
+      this.$nextTick(() => {
+        // 但是在$nextTick虽然渲染完了子组件的DOM，但其内部的图片还是未加载完的
+        // offsetTop值不对很多都是图片未加载完导致的
+        // this.themsTopys = []; // 清空数组，防止多次赋值
+
+        // this.themsTopys.push(0);
+        // this.themsTopys.push(this.$refs.params.$el.offsetTop);  // 参数的offsetTop
+        // this.themsTopys.push(this.$refs.comment.$el.offsetTop);  // 评论的offsetTop
+        // this.themsTopys.push(this.$refs.recommend.$el.offsetTop);  // 推荐的offsetTop
+        // console.log(this.themsTopys);
+      });
     })
 
     // 3. 请求推荐数据
     getRecommend().then(res => {
       // console.log(res);
       this.recommends = res.data.list;
-      console.log(this.recommends);
     })
-},
+  },
+  mounted(){},
+  updated(){},
   methods:{
     imageLoad(){
+      console.log('---------');
       this.$refs.scroll.refresh();
+
+      this.themsTopys = []; // 清空数组，防止多次赋值
+
+      this.themsTopys.push(0);
+      this.themsTopys.push(this.$refs.params.$el.offsetTop);  // 参数的offsetTop
+      this.themsTopys.push(this.$refs.comment.$el.offsetTop);  // 评论的offsetTop
+      this.themsTopys.push(this.$refs.recommend.$el.offsetTop);  // 推荐的offsetTop
+      console.log(this.themsTopys);
+    },
+    titleClick(index){
+      this.$refs.scroll.scrollTo(0, -this.themsTopys[index], 1000);
     },
   },
 }

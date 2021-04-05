@@ -36,6 +36,12 @@ export default {
     imageLoad(){
       this.$bus.$emit('itemImageLoad'); // 事件总线——发射itemImageLoad事件
       // console.log(this.$bus);
+
+      // if(this.$route.path.indexOf('/home')){
+      //   this.$bus.$emit('home-itemImageLoad');
+      // }else if(this.$route.path.indexOf('/detail')){
+      //   this.$bus.$emit('detail-itemImageLoad');
+      // }
     },
     // 监听goodListItem的点击
     itemClick(){

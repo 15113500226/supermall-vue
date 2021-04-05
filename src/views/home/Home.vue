@@ -76,6 +76,7 @@
         scrollClass:true, // 动态的绑定scroll的class
         saveY:0,  // 用于保存离开Home.vue时的位置
         // saveScrollY:0, // 用于保存保存scroll滚动时的位置
+        ItemImgListener:null, // GoodListitem的图片监听
       }
     },
     // computed:{
@@ -89,8 +90,13 @@
     },
     // 当前路由出于活跃状态时（进来）调用
     activated(){
+      // 1.保存y值
       this.$refs.scroll.scrollTo(0, this.saveY, 0);
       this.$refs.scroll.refresh();  // 对scroll做一次刷新，防止切换回Home路由时不能滚动
+
+      // 2.取消全局事件的监听
+      // $off不能只传入一个事件，一旦传一个事件的话意味着所有的地方关于这个事件的监听都会被取消，要告诉它取消哪一个监听的函数（这里是取消mounted里面的图片监听）
+      this.$bus.$off('itemImageLoad',this.ItemImgListener)
     },
     // 当前路由不活跃时（离开）调用
     deactivated(){
@@ -122,12 +128,15 @@
     mounted(){
       // 1.图片加载完成的事件监听
       const refresh = debounce(this.$refs.scroll.refresh,2000);  // debounce防抖
-      // 监听item中图片加载完成——监听事件总线 this.$bus.on('发射出来的事件', fn)
-      this.$bus.$on('itemImageLoad', ()=>{
+
+      // 对监听的事件进行保存
+      this.ItemImgListener = () => {
         // console.log('--------');
         // this.$refs.scroll.refresh();
         refresh();
-      })
+      }
+      // 监听item中图片加载完成——监听事件总线 this.$bus.on('发射出来的事件', fn)
+      this.$bus.$on('itemImageLoad', this.ItemImgListener)
     },
     methods:{
       /**
