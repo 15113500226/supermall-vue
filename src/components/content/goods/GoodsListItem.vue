@@ -68,9 +68,8 @@ export default {
 }
 
 .goods-item img{
-  /* width: 100%; */
-  width: 153.6px;
-  height: 230px;
+  width: 100%;
+
   border-radius: 5px;
 }
 
