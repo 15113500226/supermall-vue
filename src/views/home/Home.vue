@@ -39,11 +39,12 @@
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import Scroll from 'components/common/scroll/Scroll'
-  import BackTop from 'components/content/backTop/BackTop'
+  // import BackTop from 'components/content/backTop/BackTop'
 
   // 导入方法、额外的数据
   import { getHomeMultidata, getHomeGoods } from 'network/home'
   import { debounce } from 'common/utils.js'  //防抖函数
+  import { backTopMixin } from 'common/mixin'
 
   export default {
     name:'Home',
@@ -55,8 +56,9 @@
       TabControl,
       GoodsList,
       Scroll,
-      BackTop,
+      // BackTop,
     },
+    mixins: [ backTopMixin ],
     data(){
       return{
         banners:[], // 存放轮播图的数据
@@ -70,7 +72,7 @@
         },
         currentType:[], // 用于存放某一类的list数据
         currentGoodType:'', // 用于存放某一类
-        isShowBackTop:false,  // 是否展示BackTop按钮
+        // isShowBackTop:false,  // 是否展示BackTop按钮
         tabOffsetTop:0,  // tabControl组件的到最近的一个具有定位祖宗元素的距离
         isTabFixed:false, // tabControl默认不吸顶
         scrollClass:true, // 动态的绑定scroll的class
@@ -169,12 +171,12 @@
         //     break
         // }
       },
-      backClick(){
-        // this.$refs.scroll是<scroll>、this.$refs.scroll.scroll是scroll变量、scrollTo(x, y, time)
-        // this.$refs.scroll.scroll.scrollTo(0, 0, 500)
-        // 调用定义的scrollTo方法（定义在Scroll.vue中）
-        this.$refs.scroll.scrollTo(0,0);
-      },
+      // backClick(){
+      //   // this.$refs.scroll是<scroll>、this.$refs.scroll.scroll是scroll变量、scrollTo(x, y, time)
+      //   // this.$refs.scroll.scroll.scrollTo(0, 0, 500)
+      //   // 调用定义的scrollTo方法（定义在Scroll.vue中）
+      //   this.$refs.scroll.scrollTo(0,0);
+      // },
       // 实时监听滚动(回到顶部)
       contentScroll(position){
         // 1. 判断BackTop是否显示

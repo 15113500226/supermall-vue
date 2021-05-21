@@ -24,7 +24,7 @@ export function getRecommend() {
 export class GoodInfo {
     constructor(itemInfo, columns, services) {
         this.title = itemInfo.title; // 商品标题
-        this.desc = itemInfo.desc;
+        this.desc = itemInfo.desc; // 描述（加入购物车用）
         this.newPrice = itemInfo.price; // 新价格
         this.oldPrice = itemInfo.oldPrice; // 老价格
         this.discount = itemInfo.discountDesc;

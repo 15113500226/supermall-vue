@@ -19,6 +19,11 @@
       <!-- 推荐信息 -->
       <goods-list ref="recommend" :goods="recommends"/>
     </scroll>
+
+    <!-- 底部工具栏 -->
+    <detail-bottom-bar @addToCart="addToCart"/>
+    <!-- 返回顶部 -->
+    <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
 
@@ -31,12 +36,13 @@ import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
+import DetailBottomBar from './childComps/DetailBottomBar'
 // 公共组件
 import Scroll from 'components/common/scroll/Scroll'
 import GoodsList from 'components/content/goods/GoodsList'
 // 发送网络请求
 import { getDetail, GoodInfo, Shop, GoodsParam, getRecommend } from 'network/detail.js'
-
+import { backTopMixin } from 'common/mixin'
 
 export default {
   name:'Detail',
@@ -48,9 +54,11 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
+    DetailBottomBar,
     Scroll,
     GoodsList,
   },
+  mixins: [ backTopMixin ],
   data(){
     return{
       iid:null, // 商品id
@@ -122,7 +130,6 @@ export default {
   methods:{
     // 监听图片加载
     imageLoad(){
-      console.log('---------');
       this.$refs.scroll.refresh();
 
       this.themsTopys = []; // 清空数组，防止多次赋值
@@ -161,7 +168,32 @@ export default {
           // console.log(this.NavBarCurrentIndex);
           this.$refs.nav.currentIndex = this.NavBarCurrentIndex;
         }
+      };
+
+      // 是否显示回到顶部按钮
+      if(positionY > 1000) {
+        this.isShowBackTop = true;
+      } else {
+        this.isShowBackTop = false;
       }
+    },
+
+    // 添加都购物车
+    addToCart() {
+      // 1. 获取购物车需要展示的信息（图片、标题、描述、当前价格）
+      const product = {};
+      product.image = this.topImages[0];  // 取某一张轮播图的图片
+      product.title = this.goods.title; // 标题
+      product.desc = this.goods.desc; // 描述
+      product.price = this.goods.realPrice; // 价格
+      product.iid = this.iid; // 当前商品的id
+      // console.log(product);
+
+      // 2. 将商品添加到购物车里（vuex）
+      // this.$store.state.cartList.push(product);   // 不要直接添加，修改任何state的东西都要通过mutations
+      // this.$store.commit('addCart', product);
+      this.$store.dispatch('addCart', product)
+      console.log(this.$store.state.cartList);
     },
   },
 }
@@ -185,7 +217,7 @@ export default {
 
 /* 设置滚动高度 */
   .content{
-    height: calc(100% - 44px);
+    height: calc(100% - 44px - 49px);
     /* 将导航栏显示（方法二） */
     /* overflow: hidden; */
   }
