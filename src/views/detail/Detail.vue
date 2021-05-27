@@ -43,6 +43,7 @@ import GoodsList from 'components/content/goods/GoodsList'
 // 发送网络请求
 import { getDetail, GoodInfo, Shop, GoodsParam, getRecommend } from 'network/detail.js'
 import { backTopMixin } from 'common/mixin'
+import { mapActions } from 'vuex'
 
 export default {
   name:'Detail',
@@ -128,6 +129,9 @@ export default {
   mounted(){},
   updated(){},
   methods:{
+    // vuex的actions 映射进来
+    ...mapActions([ 'addCart' ]),
+
     // 监听图片加载
     imageLoad(){
       this.$refs.scroll.refresh();
@@ -190,9 +194,13 @@ export default {
       // console.log(product);
 
       // 2. 将商品添加到购物车里（vuex）
-      // this.$store.state.cartList.push(product);   // 不要直接添加，修改任何state的东西都要通过mutations
-      // this.$store.commit('addCart', product);
-      this.$store.dispatch('addCart', product)
+      // this.$store.dispatch('addCart', product).then(res => {
+      //   console.log(res);
+      // });
+      this.addCart(product).then(res => {
+        console.log(res);
+        this.$toast.show(res);  // toast弹窗
+      });
       console.log(this.$store.state.cartList);
     },
   },

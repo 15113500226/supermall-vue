@@ -3,9 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import toast from 'components/common/toast'
+
 Vue.config.productionTip = false
 
-Vue.prototype.$bus = new Vue() // 将vue实例赋值给$bus
+Vue.prototype.$bus = new Vue() // 将vue实例赋值给$bus (添加事件总线)
+Vue.use(toast) // 安装 toast 插件
 
 new Vue({
     render: h => h(App),
