@@ -11,4 +11,9 @@ export default {
         payload.checked = true;
         state.cartList.push(payload);
     },
+
+    // 删除购物车的某个商品
+    delProduct(state, payload) {
+        state.cartList.splice(payload, 1);
+    }
 }

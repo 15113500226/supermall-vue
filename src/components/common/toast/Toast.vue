@@ -8,14 +8,14 @@
 export default {
   name: 'Toast',
   data(){
-    return{
-      message:'',
-      isShow:false,
-      timer:null,
+    return {
+      message: '',
+      isShow: false,
+      timer: null,
     }
   },
   methods:{
-    show(message, duration=1000){
+    show(message, duration=1000) {
       // duration = duration || 1000;
       clearTimeout(this.timer)
       this.isShow = true;
@@ -42,5 +42,6 @@ export default {
   transition: 0.3s;
   /* opacity: 1; */
   z-index: 9999;
+  text-align: center;
 }
 </style>

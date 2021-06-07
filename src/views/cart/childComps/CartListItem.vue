@@ -11,6 +11,8 @@
     </div>
     <!-- 商品信息 -->
     <div class="item-info">
+      <!-- 删除 -->
+      <span class="delete-product" @click="del"> x </span>
       <!-- 标题、描述 -->
       <div class="item-title">{{itemInfo.title}}</div>
       <div class="item-desc">{{itemInfo.desc}}</div>
@@ -41,8 +43,21 @@ export default {
     CheckButton,
   },
   methods:{
+    // 勾选商品
     checkClick(){
       this.itemInfo.checked = !this.itemInfo.checked;
+    },
+    
+    // 删除
+    del() {
+      const i = this.$store.state.cartList.indexOf(this.itemInfo);
+      this.$store.commit('delProduct', i);
+
+      if (this.$store.state.cartList.indexOf(this.itemInfo)) {
+        this.$toast.show('删除成功');
+      } else {
+          this.$toast.show('删除失败');
+      }
     },
   },
 }
@@ -91,14 +106,19 @@ export default {
   overflow: hidden;
 }
 
+.item-info .item-title{
+  margin-top: 10px;
+  font-weight: 550;
+}
+
 .item-info .item-desc{
-  font-size: 14px;
+  font-size: 12px;
   color: #666;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .info-bottom{
-  margin-top: 10px;
+  margin-top: 5px;
   position: absolute;
   bottom: 10px;
   left: 10px;
@@ -107,5 +127,20 @@ export default {
 
 .info-bottom .item-price{
   color: orangered;
+}
+
+/* 删除 */
+.delete-product {
+  width: 15px;
+  height: 15px;
+  line-height: 12px;
+  text-align: center;
+  /* background-color: #ccc; */
+  position: absolute;
+  right: 0;
+  color: #ccc;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  overflow: hidden;
 }
 </style>

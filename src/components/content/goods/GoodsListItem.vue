@@ -1,8 +1,9 @@
 <template>
   <div class="goods-item" @click="itemClick">
     <!-- <a :href="goodsItem.link"> -->
-      <!-- 商品图片 -->
-      <img :src="showImages" alt="" @load="imageLoad">
+      <!-- 商品图片(v-lazy是使用了vue-lazyload) -->
+      <img v-lazy="showImages" alt="" @load="imageLoad">
+      <!-- <img :src="showImages" alt="" @load="imageLoad"> -->
       <div class="goods-info">
         <!-- 标题 -->
         <div class="title"><p>{{goodsItem.title}}</p></div>
